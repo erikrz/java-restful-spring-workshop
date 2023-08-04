@@ -34,11 +34,20 @@ public class BeansConfiguration {
     }
 
     @Bean
+    @Profile("!mock")
+    public ContactsService contactsService(ContactsRepository contactsRepository, ContactMapper contactMapper,
+                                           ContactMasker contactMasker) {
+        return new ContactsServiceImpl(contactsRepository, contactMapper, contactMasker);
+    }
+
+    @Bean
+    @Profile("mock")
     public Faker faker() {
         return new Faker(new Locale("es-MX"));
     }
 
     @Bean
+    @Profile("mock")
     public ContactsService mockContactsService(Faker faker, ContactMapper contactMapper,
                                            ContactMasker contactMasker) {
         return new ContactsServiceMock(faker, contactMapper, contactMasker);
