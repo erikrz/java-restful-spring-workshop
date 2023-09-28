@@ -1,6 +1,8 @@
 # java-restful-spring-workshop
 Sample Restful microservice developed with OpenAPI and Spring in Java. Base repository for a workshop in the 2023 edition of the CONITI Congress. 
 
+If you want to relive the session again, follow the [Workshop docs](/workshop-docs) (in Spanish).
+
 ## Sample Contacts Microservice
 
 In this folder, `/java-restful-spring-workshop`, there is a parent Maven Project, along with 4 children:
@@ -57,5 +59,9 @@ In this sample, we have a RESTFul microservice that accepts JSON payload.
 
 #### Locally
 
-* Run `java -jar contacts-service/target/ContactsService.jar`
+* Run 
+```shell
+java -jar contacts-service/target/ContactsService.jar
+```
+
 * Local swagger URL is available at [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
