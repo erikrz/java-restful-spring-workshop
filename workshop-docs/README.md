@@ -54,8 +54,13 @@ El protocolo HTTP define **métodos** basados en verbos: **GET** (obtener), **PO
 **DELETE** (eliminar).
 Cada mensaje que el cliente manda al servidor, tiene que declarar la intención de su acción, usando el método HTTP adecuado.  
 
+!["Diagrama de una API REST, mostrando petición y respuesta."](img/0-rest-api.png "Diagrama de una API REST, mostrando petición y respuesta")
+
+
 **RESTful** es una manera ya estandarizada de cómo implementar una API REST, de manera que facilita crear y mantener servicios web a los desarrolladores.
 Provee una interfaz uniforme para acceder a los recursos.
+
+!["Tabla de tareas, métodos HTTP y el path de una API RESTful."](img/0-customer_rest_api.png "Tabla de tareas, métodos HTTP y el path de una API RESTful")
 
 ### Manos a la obra: Swagger, OpenAPI y Spring Web.
 
@@ -63,9 +68,11 @@ Descarga el código base para este workshop desde este [enlace de github](https:
 Asegúrate de descargar o clonar la versión de la rama **release/0.0.1-ALPHA**.
 Si optas por descargar el archivo, se llamará **java-restful-spring-workshop-release-0.0.1-ALPHA.zip**
 
+![La imagen muestra una ventana de dialogo apuntando a una carpeta llamada java-restful-spring-workshop-0.0.1-ALPHA](img/1-download.png "Ventana de Dialogo de IntelliJ IDEA para abrir un archivo o Proyecto")
+
 Una vez descomprimido o clonado, deberás tener una carpeta así:
 
-![Contiene los archivos .gitignore, LICENSE, pom.xml, README.md, y las carpetas contacts-api, contacts-client, contacts-client-spring-boot-starter y contacts-service](img/1-Folder.png "Foto que muestra el explorador de archivos de windows con el contenido del archivo .zip descargado")
+![Captura de pantalla que muestra la manera de descargar el repositorio de github llamado erikrz / java-restful-spring-workshop](img/1-Folder.png "Captura de pantalla que muestra la manera de descargar el repositorio de github llamado erikrz / java-restful-spring-workshop")
 
 Esta carpeta deberás abrirla con el IDE con soporte de Java que debes tener ya instalado en tu computadora.
 
@@ -100,7 +107,6 @@ Todo esto que acabamos de ver es la definición de la api, el contrato.
 
 Ahora, veamos lo que contiene **contacts-service**, específicamente, el package `com.github.erikrz.contacts.service.controller` [aquí](../contacts-service/src/main/java/com/github/erikrz/contacts/service/controller) 
 
-
 | Contacts controller                                                                                                                                                                                                                                                                                                                   |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Tiene las anotaciones de Spring `@RestController` que indica que lo que regresen los métodos, va a ser tratados como el campo `body` de las respuestas a las peticiones al servidor, y `@RequestMapping` indica un path común para todos los métodos dentro del controller.                                                           |
@@ -120,9 +126,15 @@ Siéntete libre de experimentar con Swagger.
 
 ### Qué es la persistencia?
 
+La persistencia es la capacidad que tiene un objeto de perdurar fuera del proceso que lo creó, permitiendo ser recuperado en un futuro.
+
 Como se habrán dado cuenta, el servicio responde con datos falsos, también llamados "fake" o "mocks".
 Esto es porque este servicio aún no tiene conectada la capa de controlador, con la capa de persistencia.
 Veamos primero cómo se implementa esta capa donde se persisten los datos. Para este ejemplo, usaremos una base de datos llamada `H2`.
+
+Veamos lo que contiene *contacts-service, en los package [com.github.erikrz.contacts.service.model](../contacts-service/src/main/java/com/github/erikrz/contacts/service/model) y [com.github.erikrz.contacts.service.repository](../contacts-service/src/main/java/com/github/erikrz/contacts/service/repository).
+
+![Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran los modelos y repositorios del proyecto contacts-service](img/5-persistence.png "Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran los modelos y repositorios del proyecto contacts-service")
 
 | Model                                                                                                                                                                     | Repository                                                                                                                                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -137,25 +149,25 @@ Bien, y ahora la pregunta del millón:
 
 ### Cómo comunico mi capa REST con mi capa de Persistencia?
 
-#### Mappers
+![Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran los mappers y services del proyecto contacts-service](img/6-service.png "Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran los mappers y services del proyecto contacts-service")
+
+#### Mappers & Maskers
 
 Los mappers son clases cuya función es convertir un tipo de dato complejo a otro, 'mapeando' sus propiedades.
 En este proyecto hemos usado una librería llamada `mapstruct`, a la cual nosotros le indicamos cómo deseamos que haga el mapping, y genera código en tiempo de compilación.
 
 Veamos lo que contiene **contacts-service*, en el package `com.github.erikrz.contacts.service.mapper` [aquí](../contacts-service/src/main/java/com/github/erikrz/contacts/service/mapper)
 
-
 | ContactMapper                                                                                     | ContactMasker                                                                                                                                                                                                                                                                            |
 |---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Declara métodos para convertir entre las clases **DTO** y las clases de **dominio**.              | Declara métodos que reciben y regresan el mismo tipo de dato. Se usa para enmascarar datos que pueden ser **PII** (Personal Identifiable Information) y que por legislaciones, debemos evitar mostrar en los logs. Esto es solo una de las tantas maneras de cumplir con la legislación. |
 | Las conversiones son simples, dado que las clases comparten nombres de atributos y tipos de dato. | Declara métodos `default` que definimos a nuestra conveniencia, y que indicamos que sean usados cuando se genere el código.                                                                                                                                                              |
 
-
 Ahora, veamos el código generado en [contacts-service/target/generated-sources/annotations](../contacts-service/target/generated-sources/annotations/com/github/erikrz/contacts/service/mapper)
 
-#### Lógica de negocio
+#### Servicios
 
-Finalmente, vamos a las clases de lógica de negocio.
+Finalmente, vamos a los servicios, que son las clases de lógica de negocio.
 
 Veamos lo que contiene **contacts-service*, en el package `com.github.erikrz.contacts.service.service` [aquí](../contacts-service/src/main/java/com/github/erikrz/contacts/service/service)
 
@@ -188,11 +200,12 @@ En lo personal, me gusta utilizar **JUnit** como plataforma de pruebas, y **Asse
 
 Ahora, veamos el código de pruebas en [contacts-service/src/test/java](../contacts-service/src/test/java/com/github/erikrz/contacts/service)
 
+![Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran las pruebas unitarias del proyecto contacts-service](img/7-test.png "Captura de pantalla que muestra la ventana de proyecto con los packages donde se encuentran las pruebas unitarias del proyecto contacts-service")
+
 | JUnit                                                                                                                                | AssertJ                                                                                                                                                                                                                                            | Mockito                                                                                                                                                                |
 |--------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Verás comúnmente la anotación `@Test`. Es la que le indica a la plataforma que es una prueba a ejecutar.                             | Es una biblioteca que nos permite afirmar todo lo que deseamos validar, con un método que verás siempre: `assertThat(...)`.                                                                                                                        | Nos permite sustituir dependencias por objetos que podemos manipular su comportamiento.                                                                                |
 | Hay extensiones ya existentes para brindar de mas funcionalidad a la plataforma. un ejemplo es `@ExtendWith(SpringExtension.class)`. | Puedes usar las afirmaciones que tiene directamente `assertj-core`, o puedes usar el plugin de maven `assertj-assertions-generator-maven-plugin` para generar clases con afirmaciones hechas a la medida para tus clases **DTO** y de **dominio**. | Esto nos facilita enfocar nuestra atención en probar el código del método que estamos evaluando, sin preocuparnos demasiado por el comportamiento de las dependencias. |
-
 
 ## Contenido extra
 
@@ -202,7 +215,6 @@ Ya vimos que podemos exponer el contrato de nuestro microservicio mediante OpenA
 Ahora bien, si otros sistemas realizados en Java necesitan consumir nuestro servicio, no es mala idea brindarles una clase `Factory` con la cual, con unas pocas líneas de código, puedan crear un cliente y empezar a consumir nuestro servicio.
 
 Veamos el código de nuestros clientes en [contacts-client/src/main/java](../contacts-client/src/main/java/com/github/erikrz/contacts/client/feign)
-
 
 | Factory                                                                                                          | Feign Targets                                                                                                                             | Properties                                                                                                            | Configuration                                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
@@ -219,13 +231,16 @@ Veamos el código para autoconfigurar nuestro cliente en [contacts-client-spring
 ## Fuentes
 * Qué son los microservicios? https://aws.amazon.com/es/microservices/
 * Qué es una API?  https://aws.amazon.com/es/what-is/api/
+* REST APIs Explained - 4 Components https://mannhowie.com/rest-api
 * Generalidades del protocolo HTTP https://developer.mozilla.org/es/docs/Web/HTTP/Overview
 * Métodos HTTP: https://developer.mozilla.org/es/docs/Web/HTTP/Methods
+* What are RESTful Web Services? https://kennethlange.com/what-are-restful-web-services/
 * DTO: https://reactiveprogramming.io/blog/es/patrones-arquitectonicos/dto
 * What is OpenAPI? https://www.openapis.org/what-is-openapi
 * OpenAPI Specification https://swagger.io/specification/
 * Stoplight: OpenAPI design & Documentation https://stoplight.io/
 * SG Virtual 2023 | Cómo escribir pruebas unitarias más amigables con AssertJ https://www.youtube.com/watch?v=bq8ieZTTIV8
+* AssertJ Workshop: https://github.com/erikrz/assertj-workshop
 
 ## Para seguir aprendiendo, y reafirmar lo aprendido
 * Programación Orientada A Objetos Con Gatitos https://github.com/paulinacarolina/ProgramacionOrientadaAObjetosConGatitos/tree/main
