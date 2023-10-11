@@ -1,0 +1,806 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Contacts Service",
+    "description": "Contacts Service Example, made with Java and Spring",
+    "termsOfService": "https://github.com/erikrz/java-restful-spring-workshop/blob/main/LICENSE",
+    "contact": {
+      "name": "erikrz",
+      "url": "https://github.com/erikrz",
+      "email": "erikrz@live.com"
+    },
+    "license": {
+      "name": "Apache License Version 2.0",
+      "url": "https://github.com/erikrz/java-restful-spring-workshop/blob/main/LICENSE"
+    },
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/rest-api/v1/contacts/{contactId}": {
+      "get": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "summary": "GET a single contact",
+        "operationId": "getContact",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "Contact Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "location": {
+                "description": "resource path where the created contact can be found",
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            },
+            "links": {
+              "": {
+                "operationId": "getContact"
+              }
+            }
+          },
+          "404": {
+            "description": "Contact to retrieve not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683918886817,
+                  "status": 404,
+                  "error": "Not Found",
+                  "message": "404 NOT_FOUND",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683919144302,
+                  "status": 500,
+                  "error": "Internal Server Error",
+                  "message": "No message available",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "summary": "Update a single contact",
+        "operationId": "updateContact",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "Contact Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            },
+            "links": {
+              "": {
+                "operationId": "getContact"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1665764391370,
+                  "status": 400,
+                  "error": "Bad Request",
+                  "message": "JSON parse error",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact to update not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683918886817,
+                  "status": 404,
+                  "error": "Not Found",
+                  "message": "404 NOT_FOUND",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683919144302,
+                  "status": 500,
+                  "error": "Internal Server Error",
+                  "message": "No message available",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "summary": "Delete a single contact",
+        "operationId": "deleteContact",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "Contact Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            },
+            "links": {
+              "": {
+                "operationId": "getContact"
+              }
+            }
+          },
+          "404": {
+            "description": "Contact to delete not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683918886817,
+                  "status": 404,
+                  "error": "Not Found",
+                  "message": "404 NOT_FOUND",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683919144302,
+                  "status": 500,
+                  "error": "Internal Server Error",
+                  "message": "No message available",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest-api/v1/contacts": {
+      "get": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "operationId": "searchContacts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "firstName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "lastModifiedDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "createdByUser",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modifiedByUser",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageContactDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "summary": "POST to create a single contact",
+        "operationId": "createContact",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "location": {
+                "description": "resource path where the created contact can be found",
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            },
+            "links": {
+              "": {
+                "operationId": "getContactById"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1665764391370,
+                  "status": 400,
+                  "error": "Bad Request",
+                  "message": "JSON parse error",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest-api/v1/contacts/all": {
+      "get": {
+        "tags": [
+          "contacts-controller"
+        ],
+        "summary": "GET all contacts",
+        "operationId": "getAllContacts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "links": {
+              "": {
+                "operationId": "getContact"
+              }
+            }
+          },
+          "404": {
+            "description": "Contacts to retrieve not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683918886817,
+                  "status": 404,
+                  "error": "Not Found",
+                  "message": "404 NOT_FOUND",
+                  "path": "/rest-api/v1/contacts"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionMessage"
+                },
+                "example": {
+                  "timestamp": 1683919144302,
+                  "status": 500,
+                  "error": "Internal Server Error",
+                  "message": "No message available",
+                  "path": "/rest-api/v1/contacts/1"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContactDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the contact.",
+            "format": "int64",
+            "example": 1
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Contact's first Name.",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Contact's Last Name.",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact's email address.",
+            "example": "john.doe@github.com"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Contact's phone number.",
+            "example": "123-456-1234"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Instant when this contact was first created in the system.",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "Instant when this contact was last Modified in the system.",
+            "format": "date-time"
+          }
+        },
+        "description": "Defines a metadata model for units movement."
+      },
+      "ExceptionMessage": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "integer",
+            "description": "The time that the errors were extracted.",
+            "format": "int64",
+            "example": 1665764391370
+          },
+          "status": {
+            "type": "integer",
+            "description": "The status code.",
+            "format": "int32",
+            "example": 400
+          },
+          "error": {
+            "type": "string",
+            "description": "The error reason.",
+            "example": "Bad Request"
+          },
+          "exception": {
+            "type": "string",
+            "description": "The class name of the root exception (if configured).",
+            "example": "NullPointerException"
+          },
+          "message": {
+            "type": "string",
+            "description": "The exception message (if configured).",
+            "example": "Called method of a null object."
+          },
+          "errors": {
+            "type": "array",
+            "description": "Validation and bindingResult errors.",
+            "example": [],
+            "items": {
+              "$ref": "#/components/schemas/ValidationMessage"
+            }
+          },
+          "trace": {
+            "type": "string",
+            "description": "The exception stack trace (if configured).",
+            "example": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)"
+          },
+          "path": {
+            "type": "string",
+            "description": "The URL path when the exception was raised.",
+            "example": "/rest-api/contacts"
+          }
+        },
+        "description": "Defines a model to describe Exceptions."
+      },
+      "ValidationMessage": {
+        "type": "object",
+        "properties": {
+          "defaultMessage": {
+            "type": "string",
+            "description": "The default message used to resolve this message",
+            "example": "must not be blank"
+          },
+          "objectName": {
+            "type": "string",
+            "description": "The name of the affected object",
+            "example": "createContactDto"
+          },
+          "field": {
+            "type": "string",
+            "description": "The affected field of the object",
+            "example": "firstName"
+          },
+          "rejectedValue": {
+            "type": "object",
+            "description": "The rejected field value.",
+            "example": null
+          },
+          "bindingFailure": {
+            "type": "boolean",
+            "description": "Whether this error represents a binding failure (like a type mismatch); otherwise it is a validation failure",
+            "example": false
+          },
+          "code": {
+            "type": "string",
+            "description": "The code that represents this error",
+            "example": "NotBlank"
+          }
+        },
+        "description": "Defines a model to describe Validation Messages.",
+        "example": []
+      },
+      "CreateContactDto": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "Contact's first Name.",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Contact's Last Name.",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact's email address.",
+            "example": "john.doe@github.com"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Contact's phone number.",
+            "example": "123-456-1234"
+          }
+        },
+        "description": "Defines a model to create Contacts."
+      },
+      "PageContactDto": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
