@@ -90,7 +90,13 @@ Una vez abierto el folder, `/java-restful-spring-workshop`, verás las siguiente
     * [contacts-service](../contacts-service)
       El microservicio como tal.
 
-Veamos lo que contiene **contacts-api**
+Primero veamos cómo se ve un documento de especificación OpenAPI en formato JSON, que es probablemente el que más conozcan. También se puede realizar en YAML.
+
+Abrimos [swagger.json](swagger.json) y veamos cómo se renderiza en IntelliJ IDEA, el cual tiene un plugin llamado `OpenAPI Specifications`.
+
+![La imagen muestra un documento de especificacion OpenAPI para el microservicio de Contacts](img/3-api_contract.png "Ventana de proyecto de IntelliJ IDEA que muestra el contrato OpenAPI del microservicio de contacts")
+
+Ahora veamos lo que contiene **contacts-api**
 
 ![La imagen muestra una ventana de dialogo apuntando a una carpeta llamada java-restful-spring-workshop-0.0.1-ALPHA](img/3-contacts_api.png "Ventana de proyecto de IntelliJ IDEA que muestra el contenido de la carpeta contacts-api")
 
@@ -248,6 +254,7 @@ Veamos el código para autoconfigurar nuestro cliente en [contacts-client-spring
 * Spring in Action, Sixth Edition https://www.manning.com/books/spring-in-action-sixth-edition
 * Head First Design Patterns https://www.amazon.com.mx/Head-First-Design-Patterns-Object-Oriented/dp/149207800X/
 * Patterns of Enterprise Application Architecture https://www.amazon.com.mx/Patterns-Enterprise-Application-Architecture-Martin/dp/0321127420/
+* OpenAPI tools https://openapi.tools/
 
 ## ¿Quieres saber más sobre Nextiva?
 * Síguenos en Instagram https://www.instagram.com/nextiva_mexico/
