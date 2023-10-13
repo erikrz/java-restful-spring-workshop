@@ -244,17 +244,20 @@ Veamos el código para autoconfigurar nuestro cliente en [contacts-client-spring
 * DTO: https://reactiveprogramming.io/blog/es/patrones-arquitectonicos/dto
 * What is OpenAPI? https://www.openapis.org/what-is-openapi
 * OpenAPI Specification https://swagger.io/specification/
-* Stoplight: OpenAPI design & Documentation https://stoplight.io/
+* OpenAPI tools https://openapi.tools/
 * SG Virtual 2023 | Cómo escribir pruebas unitarias más amigables con AssertJ https://www.youtube.com/watch?v=bq8ieZTTIV8
 * AssertJ Workshop: https://github.com/erikrz/assertj-workshop
 
 ## Para seguir aprendiendo, y reafirmar lo aprendido
-* Programación Orientada A Objetos Con Gatitos https://github.com/paulinacarolina/ProgramacionOrientadaAObjetosConGatitos/tree/main
-* Effective Java, Third Edition https://www.amazon.com.mx/Effective-Java-Joshua-Bloch/dp/0134685997
-* Spring in Action, Sixth Edition https://www.manning.com/books/spring-in-action-sixth-edition
-* Head First Design Patterns https://www.amazon.com.mx/Head-First-Design-Patterns-Object-Oriented/dp/149207800X/
-* Patterns of Enterprise Application Architecture https://www.amazon.com.mx/Patterns-Enterprise-Application-Architecture-Martin/dp/0321127420/
-* OpenAPI tools https://openapi.tools/
+* Paulina Carolina: **Programación Orientada A Objetos Con Gatitos** https://github.com/paulinacarolina/ProgramacionOrientadaAObjetosConGatitos/tree/main
+* Deitel & Deitel: **Cómo programar en Java**, Décima edición https://www.amazon.com.mx/Como-Programar-En-Java-Deitel/dp/6073238029
+* Joshua Bloch: **Effective Java**, Third Edition https://www.amazon.com.mx/Effective-Java-Joshua-Bloch/dp/0134685997
+* Robert C. Martin: **Clean Code** https://www.amazon.com.mx/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
+* Eric Freeman & Elisabeth Robson: **Head First Design Patterns** https://www.amazon.com.mx/Head-First-Design-Patterns-Object-Oriented/dp/149207800X/
+* Craig Walls: **Spring in Action**, Sixth Edition https://www.manning.com/books/spring-in-action-sixth-edition
+* Martin Fowler: **Patterns of Enterprise Application Architecture** https://www.amazon.com.mx/Patterns-Enterprise-Application-Architecture-Martin/dp/0321127420/
+
+Recuerden, siempre pueden ver estos materiales en una biblioteca cercana o desde Library Genesis[,](libgen.is). Si les gusta, adquieran el libro. 
 
 ## ¿Quieres saber más sobre Nextiva?
 * Síguenos en Instagram https://www.instagram.com/nextiva_mexico/
