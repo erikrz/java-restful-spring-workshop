@@ -1,14 +1,11 @@
 package com.github.erikrz.contacts.service.test;
 
-
-import java.time.Instant;
-
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.api.dto.response.ContactDto;
 import com.github.erikrz.contacts.service.model.Contact;
+import java.time.Instant;
 
 public class TestDataFactory {
-
 
     public static CreateContactDto getCreateContactDto() {
         return CreateContactDto.builder()
@@ -27,7 +24,6 @@ public class TestDataFactory {
                 .email("erikrz@github.com")
                 .phoneNumber("(123) 456 7890")
                 .build();
-
     }
 
     public static Contact getContact() {
@@ -43,6 +39,4 @@ public class TestDataFactory {
                 .lastModifiedDate(Instant.ofEpochSecond(1680015660))
                 .build();
     }
-
-
 }

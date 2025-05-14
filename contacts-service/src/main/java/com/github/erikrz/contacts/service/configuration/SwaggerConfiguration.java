@@ -1,13 +1,12 @@
 package com.github.erikrz.contacts.service.configuration;
 
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 
 /**
  * Swagger config for Contacts Service.
@@ -69,10 +68,13 @@ public class SwaggerConfiguration {
     }
 
     private Info getApiInfo() {
-        return new Info().title(this.getApiTitle())
+        return new Info()
+                .title(this.getApiTitle())
                 .description(this.getApiDescription())
                 .version(this.getApiVersion())
-                .contact(new Contact().email(this.getContactEmail()).name(this.getContactName())
+                .contact(new Contact()
+                        .email(this.getContactEmail())
+                        .name(this.getContactName())
                         .url(this.getContactUrl()))
                 .termsOfService(this.getTermsOfServiceUrl())
                 .license(new License().name(this.getLicenseDisplayText()).url(this.getLicenseUrl()));

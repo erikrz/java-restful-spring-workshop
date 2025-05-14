@@ -1,14 +1,8 @@
 package com.github.erikrz.contacts.api.contract;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.github.erikrz.contacts.api.dto.ExceptionMessage;
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.api.dto.response.ContactDto;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -19,6 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * OpenAPI Contract that defines Idempotent Operations for Contacts management.
@@ -36,20 +33,21 @@ public interface ContactsIdempotentOperations {
             summary = "GET all contacts",
             operationId = "getAllContacts",
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = List.class)),
-                            links = {@Link(operationId = "getContact")}),
-                    @ApiResponse(
-                            responseCode = "404",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                @ApiResponse(
+                        responseCode = "200",
+                        content =
+                                @Content(mediaType = "application/json", schema = @Schema(implementation = List.class)),
+                        links = {@Link(operationId = "getContact")}),
+                @ApiResponse(
+                        responseCode = "404",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683918886817,
                                                                   "status": 404,
@@ -58,18 +56,18 @@ public interface ContactsIdempotentOperations {
                                                                   "path": "/rest-api/v1/contacts"
                                                                 }
                                                             """)
-                                    }
-                            ),
-                            description = "Contacts to retrieve not found."
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                                        }),
+                        description = "Contacts to retrieve not found."),
+                @ApiResponse(
+                        responseCode = "500",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683919144302,
                                                                   "status": 500,
@@ -77,16 +75,11 @@ public interface ContactsIdempotentOperations {
                                                                   "message": "No message available",
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
-                                                            """
-                                            )
-                                    }
-                            ),
-                            description = "Internal Server Error.")
-            }
-    )
-    Page<ContactDto> getAllContacts(
-            @Parameter(hidden = true)
-            Pageable pageable);
+                                                            """)
+                                        }),
+                        description = "Internal Server Error.")
+            })
+    Page<ContactDto> getAllContacts(@Parameter(hidden = true) Pageable pageable);
 
     /**
      * GET a single contact by invoking GET {@value ContactsPaths#SINGLE_CONTACT_PATH} .
@@ -97,24 +90,28 @@ public interface ContactsIdempotentOperations {
             summary = "GET a single contact",
             operationId = "getContact",
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ContactDto.class)),
-                            headers = {
-                                    @Header(
-                                            name = "location",
-                                            description = "resource path where the created contact can be found")},
-                            links = {@Link(operationId = "getContact")}),
-                    @ApiResponse(
-                            responseCode = "404",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                @ApiResponse(
+                        responseCode = "200",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ContactDto.class)),
+                        headers = {
+                            @Header(
+                                    name = "location",
+                                    description = "resource path where the created contact can be found")
+                        },
+                        links = {@Link(operationId = "getContact")}),
+                @ApiResponse(
+                        responseCode = "404",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683918886817,
                                                                   "status": 404,
@@ -123,18 +120,18 @@ public interface ContactsIdempotentOperations {
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
                                                             """)
-                                    }
-                            ),
-                            description = "Contact to retrieve not found."
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                                        }),
+                        description = "Contact to retrieve not found."),
+                @ApiResponse(
+                        responseCode = "500",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683919144302,
                                                                   "status": 500,
@@ -143,14 +140,10 @@ public interface ContactsIdempotentOperations {
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
                                                             """)
-                                    }
-                            ),
-                            description = "Internal Server Error.")
-            }
-    )
-    ContactDto getContact(
-            @Parameter(name = "contactId", description = "Contact Id", example = "1")
-            Long contactId);
+                                        }),
+                        description = "Internal Server Error.")
+            })
+    ContactDto getContact(@Parameter(name = "contactId", description = "Contact Id", example = "1") Long contactId);
 
     /**
      * UPDATE a single contact by invoking PUT {@value ContactsPaths#SINGLE_CONTACT_PATH} .
@@ -161,20 +154,23 @@ public interface ContactsIdempotentOperations {
             summary = "Update a single contact",
             operationId = "updateContact",
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ContactDto.class)),
-                            links = {@Link(operationId = "getContact")}),
-                    @ApiResponse(
-                            responseCode = "400",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                @ApiResponse(
+                        responseCode = "200",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ContactDto.class)),
+                        links = {@Link(operationId = "getContact")}),
+                @ApiResponse(
+                        responseCode = "400",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                       {
                                                                           "timestamp": 1665764391370,
                                                                           "status": 400,
@@ -183,18 +179,18 @@ public interface ContactsIdempotentOperations {
                                                                           "path": "/rest-api/v1/contacts/1"
                                                                       }
                                                             """)
-                                    }
-                            ),
-                            description = "Bad request."
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                                        }),
+                        description = "Bad request."),
+                @ApiResponse(
+                        responseCode = "404",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683918886817,
                                                                   "status": 404,
@@ -203,18 +199,18 @@ public interface ContactsIdempotentOperations {
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
                                                             """)
-                                    }
-                            ),
-                            description = "Contact to update not found."
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                                        }),
+                        description = "Contact to update not found."),
+                @ApiResponse(
+                        responseCode = "500",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683919144302,
                                                                   "status": 500,
@@ -222,19 +218,13 @@ public interface ContactsIdempotentOperations {
                                                                   "message": "No message available",
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
-                                                            """
-                                            )
-                                    }
-                            ),
-                            description = "Internal Server Error.")
-            }
-    )
+                                                            """)
+                                        }),
+                        description = "Internal Server Error.")
+            })
     ContactDto updateContact(
-            @Parameter(name = "contactId", description = "Contact Id", example = "1")
-            Long contactId,
-            @Valid
-            @RequestBody
-            CreateContactDto updatedContact);
+            @Parameter(name = "contactId", description = "Contact Id", example = "1") Long contactId,
+            @Valid @RequestBody CreateContactDto updatedContact);
 
     /**
      * DELETE a single contact by invoking DELETE {@value ContactsPaths#SINGLE_CONTACT_PATH} .
@@ -245,20 +235,23 @@ public interface ContactsIdempotentOperations {
             summary = "Delete a single contact",
             operationId = "deleteContact",
             responses = {
-                    @ApiResponse(
-                            responseCode = "204",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ContactDto.class)),
-                            links = {@Link(operationId = "getContact")}),
-                    @ApiResponse(
-                            responseCode = "404",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                @ApiResponse(
+                        responseCode = "204",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ContactDto.class)),
+                        links = {@Link(operationId = "getContact")}),
+                @ApiResponse(
+                        responseCode = "404",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683918886817,
                                                                   "status": 404,
@@ -267,18 +260,18 @@ public interface ContactsIdempotentOperations {
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
                                                             """)
-                                    }
-                            ),
-                            description = "Contact to delete not found."
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ExceptionMessage.class),
-                                    examples = {
+                                        }),
+                        description = "Contact to delete not found."),
+                @ApiResponse(
+                        responseCode = "500",
+                        content =
+                                @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ExceptionMessage.class),
+                                        examples = {
                                             @ExampleObject(
-                                                    value = """
+                                                    value =
+                                                            """
                                                                 {
                                                                   "timestamp": 1683919144302,
                                                                   "status": 500,
@@ -286,15 +279,9 @@ public interface ContactsIdempotentOperations {
                                                                   "message": "No message available",
                                                                   "path": "/rest-api/v1/contacts/1"
                                                                 }
-                                                            """
-                                            )
-                                    }
-                            ),
-                            description = "Internal Server Error.")
-            }
-    )
-    void deleteContact(
-            @Parameter(name = "contactId", description = "Contact Id", example = "1")
-            Long contactId);
-
+                                                            """)
+                                        }),
+                        description = "Internal Server Error.")
+            })
+    void deleteContact(@Parameter(name = "contactId", description = "Contact Id", example = "1") Long contactId);
 }

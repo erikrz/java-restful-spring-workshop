@@ -1,7 +1,20 @@
 package com.github.erikrz.contacts.service.controller;
 
-import java.util.Optional;
+import static com.github.erikrz.contacts.api.contract.ContactsPaths.BASE_PATH;
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+import com.github.erikrz.contacts.api.contract.ContactsIdempotentOperations;
+import com.github.erikrz.contacts.api.contract.ContactsNonIdempotentOperations;
+import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
+import com.github.erikrz.contacts.api.dto.response.ContactDto;
+import com.github.erikrz.contacts.service.mapper.ContactMasker;
+import com.github.erikrz.contacts.service.model.Contact;
+import com.github.erikrz.contacts.service.service.ContactsService;
+import com.querydsl.core.types.Predicate;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Optional;
+import lombok.extern.slf4j.XSlf4j;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,22 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.github.erikrz.contacts.api.contract.ContactsIdempotentOperations;
-import com.github.erikrz.contacts.api.contract.ContactsNonIdempotentOperations;
-import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
-import com.github.erikrz.contacts.api.dto.response.ContactDto;
-import com.github.erikrz.contacts.service.mapper.ContactMasker;
-import com.github.erikrz.contacts.service.model.Contact;
-import com.github.erikrz.contacts.service.service.ContactsService;
-import com.querydsl.core.types.Predicate;
-
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.XSlf4j;
-
-import static com.github.erikrz.contacts.api.contract.ContactsPaths.BASE_PATH;
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 /**
  * Controller that exposes a sample RestFUL API to manage contacts.
@@ -56,9 +53,7 @@ public class ContactsController implements ContactsIdempotentOperations, Contact
         this.contactMasker = contactMasker;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -71,9 +66,7 @@ public class ContactsController implements ContactsIdempotentOperations, Contact
         return savedContact;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/all")
@@ -89,64 +82,48 @@ public class ContactsController implements ContactsIdempotentOperations, Contact
      * Endpoint to allow search of contacts.
      *
      * @param predicate filters to apply when searching for contacts.
-     * @param pageable  how the results should be paginated .
+     * @param pageable how the results should be paginated .
      * @return a pages of matching results.
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @PageableAsQueryParam
     public Page<ContactDto> searchContacts(
-            @QuerydslPredicate(root = Contact.class)
-            Predicate predicate,
-            @Parameter(hidden = true)
-            Pageable pageable) {
+            @QuerydslPredicate(root = Contact.class) Predicate predicate, @Parameter(hidden = true) Pageable pageable) {
         log.entry(predicate, pageable);
         var foundContacts = this.contactsService.searchContacts(predicate, pageable);
         log.exit(foundContacts.map(contactMasker::mask));
         return foundContacts;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{contactId}")
-    public ContactDto getContact(
-            @PathVariable("contactId")
-            Long contactId) {
+    public ContactDto getContact(@PathVariable("contactId") Long contactId) {
         log.entry(contactId);
         var contact = this.contactsService.getContactById(contactId);
         log.exit(contact.map(contactMasker::mask));
         return contact.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{contactId}")
     public ContactDto updateContact(
-            @PathVariable("contactId")
-            Long contactId,
-            @RequestBody
-            CreateContactDto updatedContact) {
+            @PathVariable("contactId") Long contactId, @RequestBody CreateContactDto updatedContact) {
         log.entry(contactId, contactMasker.mask(updatedContact));
         var contact = this.contactsService.updateContactById(contactId, updatedContact);
         log.exit(contact.map(contactMasker::mask));
         return contact.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{contactId}")
-    public void deleteContact(
-            @PathVariable("contactId")
-            Long contactId) {
+    public void deleteContact(@PathVariable("contactId") Long contactId) {
         log.entry(contactId);
         var contact = this.contactsService.deleteContactById(contactId);
         if (contact.isEmpty()) {
@@ -161,5 +138,4 @@ public class ContactsController implements ContactsIdempotentOperations, Contact
                 .map(ServletRequestAttributes.class::cast)
                 .map(ServletRequestAttributes::getResponse);
     }
-
 }

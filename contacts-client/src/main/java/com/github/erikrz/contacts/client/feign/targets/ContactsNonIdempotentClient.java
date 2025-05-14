@@ -1,14 +1,13 @@
 package com.github.erikrz.contacts.client.feign.targets;
 
+import static com.github.erikrz.contacts.api.contract.ContactsPaths.BASE_PATH;
+
 import com.github.erikrz.contacts.api.contract.ContactsNonIdempotentOperations;
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.api.dto.response.ContactDto;
-
 import feign.Body;
 import feign.Param;
 import feign.RequestLine;
-
-import static com.github.erikrz.contacts.api.contract.ContactsPaths.BASE_PATH;
 
 /**
  * Contacts non-idempotent Client.
@@ -27,5 +26,4 @@ public interface ContactsNonIdempotentClient extends ContactsNonIdempotentOperat
     @RequestLine("POST " + BASE_PATH)
     @Body("{createContactDto}")
     ContactDto createContact(@Param("createContactDto") CreateContactDto createContactDto);
-
 }

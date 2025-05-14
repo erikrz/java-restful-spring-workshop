@@ -1,11 +1,10 @@
 package com.github.erikrz.contacts.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.api.dto.response.ContactDto;
 import com.github.erikrz.contacts.service.model.Contact;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 /**
  * Interface that declares functions to map models to DTOs and vice-versa.

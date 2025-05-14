@@ -18,20 +18,15 @@ import lombok.extern.jackson.Jacksonized;
 @Schema(description = "Defines a model to create Contacts.")
 public class CreateContactDto {
 
-    @NotBlank
-    @Schema(description = "Contact's first Name.", example = "John")
+    @NotBlank @Schema(description = "Contact's first Name.", example = "John")
     private final String firstName;
 
-    @NotBlank
-    @Schema(description = "Contact's Last Name.", example = "Doe")
+    @NotBlank @Schema(description = "Contact's Last Name.", example = "Doe")
     private final String lastName;
 
-    @Email
-    @NotBlank
-    @Schema(description = "Contact's email address.", example = "john.doe@github.com")
+    @Email @NotBlank @Schema(description = "Contact's email address.", example = "john.doe@github.com")
     private final String email;
 
     @Schema(description = "Contact's phone number.", example = "123-456-1234")
     private final String phoneNumber;
-
 }

@@ -1,8 +1,24 @@
 package com.github.erikrz.contacts.service.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
+import com.github.erikrz.contacts.api.dto.response.ContactDto;
+import com.github.erikrz.contacts.service.mapper.ContactMasker;
+import com.github.erikrz.contacts.service.service.ContactsService;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +32,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
-import com.github.erikrz.contacts.api.dto.response.ContactDto;
-import com.github.erikrz.contacts.service.mapper.ContactMasker;
-import com.github.erikrz.contacts.service.service.ContactsService;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-/**
- * Tests that verifies the ContactsController behavior.
- */
+/** Tests that verifies the ContactsController behavior. */
 @MockBeans(@MockBean(ContactMasker.class))
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ContactsController.class)
@@ -81,7 +77,6 @@ class ContactsControllerTest {
             .phoneNumber("(123) 456 7890")
             .build();
 
-
     @Test
     void whenValidInputForCreateContact_thenReturns201() throws Exception {
         when(contactsService.saveContact(createContact)).thenReturn(savedContact);
@@ -93,8 +88,7 @@ class ContactsControllerTest {
                         status().isCreated(),
                         header().string("location", "http://localhost/rest-api/v1/contacts/1"),
                         content().contentType(APPLICATION_JSON),
-                        content().json(objectMapper.writeValueAsString(savedContact))
-                );
+                        content().json(objectMapper.writeValueAsString(savedContact)));
     }
 
     @Test
@@ -102,18 +96,17 @@ class ContactsControllerTest {
         mockMvc.perform(post("/rest-api/v1/contacts")
                         .contentType(APPLICATION_JSON)
                         .content("[{}]"))
-                .andExpectAll(
-                        status().isBadRequest(),
-                        result -> assertThat(result.getResolvedException())
-                                .isInstanceOf(HttpMessageNotReadableException.class)
-                );
+                .andExpectAll(status().isBadRequest(), result -> assertThat(result.getResolvedException())
+                        .isInstanceOf(HttpMessageNotReadableException.class));
     }
 
     @Test
     void whenInvalidInputForCreateContact_thenReturns400() throws Exception {
-        mockMvc.perform(post("/rest-api/v1/contacts")
-                        .contentType(APPLICATION_JSON)
-                        .content("""
+        mockMvc.perform(
+                        post("/rest-api/v1/contacts")
+                                .contentType(APPLICATION_JSON)
+                                .content(
+                                        """
                                     {
                                       "firstName": " ",
                                       "lastName": " ",
@@ -121,24 +114,19 @@ class ContactsControllerTest {
                                       "phoneNumber": " "
                                     }
                                 """))
-                .andExpectAll(
-                        status().isBadRequest(),
-                        result -> assertThat(result.getResolvedException())
-                                .isInstanceOf(MethodArgumentNotValidException.class)
-                );
+                .andExpectAll(status().isBadRequest(), result -> assertThat(result.getResolvedException())
+                        .isInstanceOf(MethodArgumentNotValidException.class));
     }
 
     @Test
     void whenGetAllContacts_thenReturns200() throws Exception {
-        when(contactsService.getAllContacts(any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(savedContact)));
+        when(contactsService.getAllContacts(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(savedContact)));
 
         mockMvc.perform(get("/rest-api/v1/contacts/all"))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(APPLICATION_JSON),
-                        content().json(objectMapper.writeValueAsString(new PageImpl<>(List.of(savedContact))))
-                );
+                        content().json(objectMapper.writeValueAsString(new PageImpl<>(List.of(savedContact)))));
     }
 
     @Test
@@ -149,24 +137,21 @@ class ContactsControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(APPLICATION_JSON),
-                        content().json(objectMapper.writeValueAsString(savedContact))
-                );
+                        content().json(objectMapper.writeValueAsString(savedContact)));
     }
 
     @Test
     void whenGetContactByInvalidId_thenReturns404() throws Exception {
         when(contactsService.getContactById(2L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/rest-api/v1/contacts/{id}", 2L))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/rest-api/v1/contacts/{id}", 2L)).andExpect(status().isNotFound());
     }
 
     @Test
     void whenGetContactByNotNumericId_thenReturns400() throws Exception {
         when(contactsService.getContactById(2L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/rest-api/v1/contacts/{id}", "erik"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/rest-api/v1/contacts/{id}", "erik")).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -179,8 +164,7 @@ class ContactsControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(APPLICATION_JSON),
-                        content().json(objectMapper.writeValueAsString(updatedContact))
-                );
+                        content().json(objectMapper.writeValueAsString(updatedContact)));
     }
 
     @Test
@@ -195,8 +179,7 @@ class ContactsControllerTest {
 
     @Test
     void whenUpdateContactByNotNumericId_thenReturns400() throws Exception {
-        mockMvc.perform(put("/rest-api/v1/contacts/{id}", "erik"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(put("/rest-api/v1/contacts/{id}", "erik")).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -213,8 +196,7 @@ class ContactsControllerTest {
     void whenValidIdForDeleteContact_thenReturns204() throws Exception {
         when(contactsService.deleteContactById(1L)).thenReturn(Optional.of(savedContact));
 
-        mockMvc.perform(delete("/rest-api/v1/contacts/{id}", 1L))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/rest-api/v1/contacts/{id}", 1L)).andExpect(status().isNoContent());
     }
 
     @Test
@@ -229,8 +211,6 @@ class ContactsControllerTest {
 
     @Test
     void whenDeleteContactByNotNumericId_thenReturns400() throws Exception {
-        mockMvc.perform(delete("/rest-api/v1/contacts/{id}", "erik"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(delete("/rest-api/v1/contacts/{id}", "erik")).andExpect(status().isBadRequest());
     }
-
 }

@@ -1,13 +1,12 @@
 package com.github.erikrz.contacts.service.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class ContactMaskerTest {
     private final ContactMasker contactMasker = Mappers.getMapper(ContactMasker.class);
-
 
     @Test
     void maskEmail() {

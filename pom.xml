@@ -254,9 +254,19 @@
                             <palantirJavaFormat>
                                 <formatJavadoc>true</formatJavadoc>
                             </palantirJavaFormat>
+                            <importOrder />
+                            <removeUnusedImports />
+                            <formatAnnotations />
                         </java>
                     </configuration>
                     <executions>
+                        <execution>
+                            <id>auto-style</id>
+                            <goals>
+                                <goal>apply</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
                         <execution>
                             <goals>
                                 <goal>check</goal>
