@@ -1,16 +1,12 @@
-
 package com.github.erikrz.contacts.client.feign;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.openapitools.jackson.nullable.JsonNullableModule;
-import org.springframework.cloud.openfeign.support.PageJacksonModule;
-import org.springframework.cloud.openfeign.support.SortJacksonModule;
+import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_CONNECTION_TIMEOUT;
+import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_LOGGER_LEVEL;
+import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_READ_TIMEOUT;
+import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_TOTAL_CONNECTIONS;
+import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_TOTAL_CONNECTIONS_PER_ROUTE;
+import static feign.Retryer.NEVER_RETRY;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,7 +19,6 @@ import com.github.erikrz.contacts.client.feign.interceptor.ContentTypeIntercepto
 import com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties;
 import com.github.erikrz.contacts.client.feign.targets.ContactsIdempotentClient;
 import com.github.erikrz.contacts.client.feign.targets.ContactsNonIdempotentClient;
-
 import feign.Feign;
 import feign.Request;
 import feign.RequestInterceptor;
@@ -32,14 +27,15 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.optionals.OptionalDecoder;
 import feign.slf4j.Slf4jLogger;
-
-import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_CONNECTION_TIMEOUT;
-import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_LOGGER_LEVEL;
-import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_READ_TIMEOUT;
-import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_TOTAL_CONNECTIONS;
-import static com.github.erikrz.contacts.client.feign.properties.ContactsClientProperties.DEFAULT_TOTAL_CONNECTIONS_PER_ROUTE;
-import static feign.Retryer.NEVER_RETRY;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.openapitools.jackson.nullable.JsonNullableModule;
+import org.springframework.cloud.openfeign.support.PageJacksonModule;
+import org.springframework.cloud.openfeign.support.SortJacksonModule;
 
 /**
  * Contacts Service Client Factory.
@@ -74,8 +70,7 @@ public class ContactsClientFactory {
      * @return an instance of ContactsIdempotentClient.
      */
     public ContactsIdempotentClient contactsIdempotentClient() {
-        return commonFeignBuilder()
-                .target(ContactsIdempotentClient.class, properties.getBaseUri());
+        return commonFeignBuilder().target(ContactsIdempotentClient.class, properties.getBaseUri());
     }
 
     /**
@@ -119,7 +114,8 @@ public class ContactsClientFactory {
     }
 
     private Feign.Builder commonFeignBuilder() {
-        return Feign.builder().client(apacheHttpClient())
+        return Feign.builder()
+                .client(apacheHttpClient())
                 .logger(new Slf4jLogger())
                 .logLevel(Optional.ofNullable(properties.getLoggerLevel()).orElse(DEFAULT_LOGGER_LEVEL))
                 .encoder(new JacksonEncoder(this.objectMapper))
@@ -136,10 +132,12 @@ public class ContactsClientFactory {
 
     private Request.Options requestOptions() {
         return new Request.Options(
-                (int) Optional.ofNullable(this.properties.getConnectionTimeout()).orElse(DEFAULT_CONNECTION_TIMEOUT)
+                (int) Optional.ofNullable(this.properties.getConnectionTimeout())
+                        .orElse(DEFAULT_CONNECTION_TIMEOUT)
                         .toMillis(),
                 MILLISECONDS,
-                (int) Optional.ofNullable(this.properties.getReadTimeout()).orElse(DEFAULT_READ_TIMEOUT)
+                (int) Optional.ofNullable(this.properties.getReadTimeout())
+                        .orElse(DEFAULT_READ_TIMEOUT)
                         .toMillis(),
                 MILLISECONDS,
                 true);
@@ -149,10 +147,9 @@ public class ContactsClientFactory {
         CloseableHttpClient apacheHttpClient = HttpClientBuilder.create()
                 .setMaxConnPerRoute(Optional.ofNullable(properties.getMaxConnPerRoute())
                         .orElse(DEFAULT_TOTAL_CONNECTIONS_PER_ROUTE))
-                .setMaxConnTotal(Optional.ofNullable(properties.getMaxConnTotal())
-                        .orElse(DEFAULT_TOTAL_CONNECTIONS))
+                .setMaxConnTotal(
+                        Optional.ofNullable(properties.getMaxConnTotal()).orElse(DEFAULT_TOTAL_CONNECTIONS))
                 .build();
         return new ApacheHttpClient(apacheHttpClient);
     }
-
 }

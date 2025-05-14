@@ -1,14 +1,11 @@
-
 package com.github.erikrz.contacts.client.feign.decoder;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.erikrz.contacts.api.dto.ExceptionMessage;
-
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import java.io.IOException;
+import java.io.InputStream;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,5 +37,4 @@ public class ContactsErrorDecoder implements ErrorDecoder {
             default -> defaultErrorDecoder.decode(methodKey, response);
         };
     }
-
 }

@@ -1,17 +1,14 @@
-
 package com.github.erikrz.contacts.client.feign.properties;
 
-import java.time.Duration;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.bind.ConstructorBinding;
+import static feign.Logger.Level.BASIC;
 
 import feign.Logger;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.time.Duration;
 import lombok.Data;
-
-import static feign.Logger.Level.BASIC;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 /**
  * This class provides a contextual way to define needed properties to be fulfilled in a project, be it directly in the
@@ -30,27 +27,16 @@ public class ContactsClientProperties {
     public static final Integer DEFAULT_TOTAL_CONNECTIONS_PER_ROUTE = 4096;
     public static final Logger.Level DEFAULT_LOGGER_LEVEL = BASIC;
 
-    /**
-     * Base URI to consume Contacts Service, i.e.
-     * {@literal https://localhost:8080} .
-     */
-    @NotNull
-    @NotBlank
-    private final String baseUri;
+    /** Base URI to consume Contacts Service, i.e. {@literal https://localhost:8080} . */
+    @NotNull @NotBlank private final String baseUri;
 
-    /**
-     * Connection timeout duration, i.e. {@code 20s} ({@link #DEFAULT_CONNECTION_TIMEOUT})
-     */
+    /** Connection timeout duration, i.e. {@code 20s} ({@link #DEFAULT_CONNECTION_TIMEOUT}) */
     private final Duration connectionTimeout;
 
-    /**
-     * Connection timeout duration, i.e. {@code 10s} ({@link #DEFAULT_READ_TIMEOUT})
-     */
+    /** Connection timeout duration, i.e. {@code 10s} ({@link #DEFAULT_READ_TIMEOUT}) */
     private final Duration readTimeout;
 
-    /**
-     * Max number of connections for Feign's HttpClient, i.e. {@value DEFAULT_TOTAL_CONNECTIONS}.
-     */
+    /** Max number of connections for Feign's HttpClient, i.e. {@value DEFAULT_TOTAL_CONNECTIONS}. */
     private final Integer maxConnTotal;
 
     /**
@@ -58,15 +44,17 @@ public class ContactsClientProperties {
      */
     private final Integer maxConnPerRoute;
 
-
-    /**
-     * Log level for this client, i.e {@link #DEFAULT_LOGGER_LEVEL}.
-     */
+    /** Log level for this client, i.e {@link #DEFAULT_LOGGER_LEVEL}. */
     private final Logger.Level loggerLevel;
 
     @ConstructorBinding
-    public ContactsClientProperties(@NotNull @NotBlank String baseUri, Duration connectionTimeout, Duration readTimeout,
-                                    Integer maxConnTotal, Integer maxConnPerRoute, Logger.Level loggerLevel) {
+    public ContactsClientProperties(
+            @NotNull @NotBlank String baseUri,
+            Duration connectionTimeout,
+            Duration readTimeout,
+            Integer maxConnTotal,
+            Integer maxConnPerRoute,
+            Logger.Level loggerLevel) {
         this.baseUri = baseUri;
         this.connectionTimeout = connectionTimeout;
         this.readTimeout = readTimeout;

@@ -1,10 +1,8 @@
 package com.github.erikrz.contacts.api.dto.response;
 
-import java.time.Instant;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;

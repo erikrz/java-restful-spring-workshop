@@ -1,15 +1,14 @@
 package com.github.erikrz.contacts.service.mapper;
 
+import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
+import com.github.erikrz.contacts.api.dto.response.ContactDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
-import com.github.erikrz.contacts.api.dto.response.ContactDto;
-
 /**
- * Interface that declares functions to map models & DTOs to their own data type while fields that may contain
- * sensitive data.
+ * Interface that declares functions to map models & DTOs to their own data type while fields that may contain sensitive
+ * data.
  *
  * @author erikrz
  */
@@ -42,5 +41,4 @@ public interface ContactMasker {
         }
         return email.replaceAll(MASK_EMAIL_REGEX, "*");
     }
-
 }

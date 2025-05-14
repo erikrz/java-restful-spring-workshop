@@ -1,23 +1,20 @@
 package com.github.erikrz.contacts.service.service;
 
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.LongStream;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.api.dto.response.ContactDto;
 import com.github.erikrz.contacts.service.mapper.ContactMapper;
 import com.github.erikrz.contacts.service.mapper.ContactMasker;
 import com.github.javafaker.Faker;
 import com.querydsl.core.types.Predicate;
-
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.LongStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.XSlf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service that simulates persisting contacts.
@@ -95,11 +92,10 @@ public class ContactsServiceMock implements ContactsService {
     private ContactDto createFakeContact(Long id) {
         var firstName = faker.name().firstName();
         var lastName = faker.name().lastName();
-        var username = StringUtils.deleteWhitespace(
-                StringUtils.join(
-                        firstName.replace("'", "").toLowerCase(),
-                        ".",
-                        lastName.replace("'", "").toLowerCase()));
+        var username = StringUtils.deleteWhitespace(StringUtils.join(
+                firstName.replace("'", "").toLowerCase(),
+                ".",
+                lastName.replace("'", "").toLowerCase()));
         return ContactDto.builder()
                 .id(id)
                 .firstName(firstName)
@@ -110,5 +106,4 @@ public class ContactsServiceMock implements ContactsService {
                 .lastModifiedDate(faker.date().past(2, TimeUnit.HOURS).toInstant())
                 .build();
     }
-
 }

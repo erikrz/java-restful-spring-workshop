@@ -1,5 +1,7 @@
 package com.github.erikrz.contacts.client.feign.configuration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Test for the {@link ContactsServiceClientConfiguration} class.
  *
  * @author erikrz
  */
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(
-        properties = "services.settings.contacts-service.base-uri=https://erikrz.com/contacts-service")
+@TestPropertySource(properties = "services.settings.contacts-service.base-uri=https://erikrz.com/contacts-service")
 @ContextConfiguration(
         initializers = ConfigDataApplicationContextInitializer.class,
         classes = {ContactsServiceClientConfiguration.class})
@@ -30,5 +29,4 @@ class ContactsServiceClientConfigurationTest {
     void testPropertiesLoaded() {
         assertThat(configuration).isNotNull();
     }
-
 }

@@ -1,15 +1,13 @@
 package com.github.erikrz.contacts.service.mapper;
 
-import java.time.Instant;
-
-import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
+import static com.github.erikrz.contacts.api.dto.response.ContactDtoAssert.assertThat;
+import static com.github.erikrz.contacts.service.model.ContactAssert.assertThat;
 
 import com.github.erikrz.contacts.api.dto.request.CreateContactDto;
 import com.github.erikrz.contacts.service.test.TestDataFactory;
-
-import static com.github.erikrz.contacts.api.dto.response.ContactDtoAssert.assertThat;
-import static com.github.erikrz.contacts.service.model.ContactAssert.assertThat;
+import java.time.Instant;
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 class ContactMapperTest {
 
@@ -33,8 +31,8 @@ class ContactMapperTest {
                 .hasLastName("Rz")
                 .hasEmail("erikrz@github.com")
                 .hasPhoneNumber("(123) 456 7890")
-                .hasNoNullFieldsOrPropertiesExcept("id", "createdDate", "lastModifiedDate", "createdByUser",
-                        "modifiedByUser");
+                .hasNoNullFieldsOrPropertiesExcept(
+                        "id", "createdDate", "lastModifiedDate", "createdByUser", "modifiedByUser");
     }
 
     @Test
@@ -49,8 +47,8 @@ class ContactMapperTest {
                 .hasLastName("Rz")
                 .hasEmail("erikrz@github.com")
                 .hasPhoneNumber("(123) 456 7890")
-                .hasNoNullFieldsOrPropertiesExcept("createdDate", "lastModifiedDate", "createdByUser",
-                        "modifiedByUser");
+                .hasNoNullFieldsOrPropertiesExcept(
+                        "createdDate", "lastModifiedDate", "createdByUser", "modifiedByUser");
     }
 
     @Test

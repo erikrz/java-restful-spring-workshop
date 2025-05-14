@@ -1,15 +1,12 @@
-
 package com.github.erikrz.contacts.api.dto;
 
-import java.util.List;
-
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 
 /**
  * DTO to describe exceptions raised by Spring.
@@ -42,8 +39,10 @@ public class ExceptionMessage {
     @Schema(description = "Validation and bindingResult errors.", example = "[]")
     private final List<ValidationMessage> errors;
 
-    @Schema(description = "The exception stack trace (if configured).", example = "java.lang.Exception: Stack trace\n"
-            + "at java.base/java.lang.Thread.dumpStack(Thread.java:1383)")
+    @Schema(
+            description = "The exception stack trace (if configured).",
+            example =
+                    "java.lang.Exception: Stack trace\n" + "at java.base/java.lang.Thread.dumpStack(Thread.java:1383)")
     private final String trace;
 
     @Schema(description = "The URL path when the exception was raised.", example = "/rest-api/contacts")

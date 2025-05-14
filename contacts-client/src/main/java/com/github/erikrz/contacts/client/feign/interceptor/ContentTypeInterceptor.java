@@ -5,6 +5,7 @@ import feign.RequestTemplate;
 
 /**
  * ContentTypeInterceptor.
+ *
  * @author erikrz
  */
 public class ContentTypeInterceptor implements RequestInterceptor {
@@ -25,5 +26,4 @@ public class ContentTypeInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate requestTemplate) {
         requestTemplate.header(CONTENT_TYPE, contentType);
     }
-
 }
