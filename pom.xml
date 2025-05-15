@@ -24,30 +24,30 @@
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
 
-        <assertj.version>3.26.3</assertj.version>
-        <feign-bom.version>13.1</feign-bom.version>
+        <assertj.version>3.27.3</assertj.version>
+        <feign-bom.version>13.6</feign-bom.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <javafaker.version>1.0.2</javafaker.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <lombok.version>1.18.34</lombok.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <querydsl.version>5.1.0</querydsl.version>
         <specification-arg-resolver.version>3.1.0</specification-arg-resolver.version>
-        <spring-boot.version>3.3.2</spring-boot.version>
-        <spring-cloud-openfeign-core.version>4.1.3</spring-cloud-openfeign-core.version>
+        <spring-boot.version>3.4.5</spring-boot.version>
+        <spring-cloud-openfeign-core.version>4.2.1</spring-cloud-openfeign-core.version>
         <springdoc-openapi-core.version>1.8.0</springdoc-openapi-core.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
-        <swagger.version>2.2.22</swagger.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.8.8</springdoc-openapi-starter-webmvc-ui.version>
+        <swagger.version>2.2.31</swagger.version>
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
         <assertj-assertions-generator.version>2.2.1</assertj-assertions-generator.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
-        <maven-versions-plugin.version>2.17.1</maven-versions-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
         <spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
     </properties>
 
