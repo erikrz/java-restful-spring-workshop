@@ -37,12 +37,12 @@
         <spring-cloud-openfeign-core.version>4.2.1</spring-cloud-openfeign-core.version>
         <springdoc-openapi-core.version>1.8.0</springdoc-openapi-core.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.8.8</springdoc-openapi-starter-webmvc-ui.version>
-        <swagger.version>2.2.31</swagger.version>
+        <swagger.version>2.2.32</swagger.version>
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <assertj-assertions-generator-maven-plugin.version>2.2.0</assertj-assertions-generator-maven-plugin.version>
         <assertj-assertions-generator.version>2.2.1</assertj-assertions-generator.version>
-        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -274,6 +274,30 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <formats>
+                                    <format>XML</format>
+                                </formats>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -296,6 +320,10 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
