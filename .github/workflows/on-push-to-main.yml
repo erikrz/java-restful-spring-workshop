@@ -51,5 +51,5 @@ jobs:
           file: ./contacts-service/Dockerfile
           push: true
           tags: |
-            erikrz/contacts-service:main
-            erikrz/contacts-service:main-${{ github.sha }}
+            ${{ secrets.REGISTRY_URL }}/contacts-service:main
+            ${{ secrets.REGISTRY_URL }}/contacts-service:main-${{ github.sha }}
