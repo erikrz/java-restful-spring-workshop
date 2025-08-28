@@ -27,3 +27,11 @@ jobs:
 
       - name: Verify
         run: mvn clean verify
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./contacts-service/Dockerfile
+          push: false
+          tags: erikrz/contacts-service:pr-${{ github.event.pull_request.number }}
